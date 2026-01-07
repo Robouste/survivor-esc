@@ -6,6 +6,7 @@ export const Resources = {
     WarriorIdle: new ImageSource("./spritesheets/characters/warrior_idle.png"),
     WarriorMove: new ImageSource("./spritesheets/characters/warrior_move.png"),
     Kunai: new ImageSource("./spritesheets/weapons/kunai.png"),
+    SkullBeetle: new ImageSource("./spritesheets/enemies/skull-beetle.png"),
   },
 } as const;
 

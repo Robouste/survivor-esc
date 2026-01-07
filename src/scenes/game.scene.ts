@@ -1,10 +1,10 @@
-import { EnemyComponent } from "@components";
-import { Enemy, Hero } from "@entities";
+import { Hero, SkullBeetle } from "@entities";
 import {
   ChaseHeroSystem,
   HeroMovementSystem,
   LineProjectileSystem,
 } from "@systems";
+import { Helpers } from "@utils";
 import { Engine, Scene, Timer, vec } from "excalibur";
 import { Background } from "../actors/background.actor";
 import { TargetingSystem } from "../systems/targeting.system";
@@ -20,11 +20,12 @@ export class GameScene extends Scene {
     this.add(this._hero);
 
     const timer = new Timer({
-      interval: 5000,
+      interval: 1000,
       repeats: true,
       action: () => {
-        const enemy = new Enemy(vec(100, 100));
-        enemy.addComponent(new EnemyComponent());
+        const pos = Helpers.getRandomSpawnPosition(engine);
+
+        const enemy = new SkullBeetle(pos);
         this.add(enemy);
       },
     });
