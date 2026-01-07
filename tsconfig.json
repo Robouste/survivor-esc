@@ -15,7 +15,11 @@
     "noUnusedParameters": false,
     "noImplicitReturns": true,
     "paths": {
-      "@utils/*": ["./src/utils/*"]
+      "@components": ["./src/components/index.ts"],
+      "@entities": ["./src/entities/index.ts"],
+      "@scenes": ["./src/scenes/index.ts"],
+      "@systems": ["./src/systems/index.ts"],
+      "@utils": ["./src/utils/index.ts"]
     }
   },
   "include": ["./src"]

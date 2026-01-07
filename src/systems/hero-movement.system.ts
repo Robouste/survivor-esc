@@ -1,3 +1,4 @@
+import { HeroMovementComponent } from "@components";
 import {
   Keyboard,
   Keys,
@@ -8,7 +9,6 @@ import {
   vec,
   World,
 } from "excalibur";
-import { HeroMovementComponent } from "../components/hero-movement.component";
 
 export class HeroMovementSystem extends System {
   public systemType = SystemType.Update;

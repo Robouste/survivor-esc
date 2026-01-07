@@ -1,13 +1,18 @@
-import { Loader } from "excalibur";
+import { ImageSource, Loader } from "excalibur";
 
 // It is convenient to put your resources in one place
-export const Resources = {} as const; // the 'as const' is a neat typescript trick to get strong typing on your resources.
-// So when you type Resources.Sword -> ImageSource
+export const Resources = {
+  SpriteSheets: {
+    WarriorIdle: new ImageSource("./spritesheets/characters/warrior_idle.png"),
+    WarriorMove: new ImageSource("./spritesheets/characters/warrior_move.png"),
+    Kunai: new ImageSource("./spritesheets/weapons/kunai.png"),
+  },
+} as const;
 
-// We build a loader and add all of our resources to the boot loader
-// You can build your own loader by extending DefaultLoader
 export const loader = new Loader();
 
-for (const res of Object.values(Resources)) {
-  // loader.addResource(res);
+for (const key of Object.values(Resources)) {
+  for (const res of Object.values(key)) {
+    loader.addResource(res);
+  }
 }
