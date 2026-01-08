@@ -1,4 +1,8 @@
-import { ChaseHeroComponent, EnemyComponent } from "@components";
+import {
+  ChaseHeroComponent,
+  EnemyComponent,
+  XpDropComponent,
+} from "@components";
 import { Resources } from "@utils";
 import {
   Actor,
@@ -23,6 +27,7 @@ export class SkullBeetle extends Actor {
   public onInitialize(engine: Engine): void {
     this.addComponent(new EnemyComponent());
     this.addComponent(new ChaseHeroComponent(150));
+    this.addComponent(new XpDropComponent(10));
 
     const spritesheet = SpriteSheet.fromImageSource({
       image: Resources.SpriteSheets.SkullBeetle,

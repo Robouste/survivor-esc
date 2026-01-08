@@ -1,4 +1,4 @@
-import { ImageSource, Loader } from "excalibur";
+import { ImageSource, Loader, Sound } from "excalibur";
 
 // It is convenient to put your resources in one place
 export const Resources = {
@@ -7,6 +7,9 @@ export const Resources = {
     WarriorMove: new ImageSource("./spritesheets/characters/warrior_move.png"),
     Kunai: new ImageSource("./spritesheets/weapons/kunai.png"),
     SkullBeetle: new ImageSource("./spritesheets/enemies/skull-beetle.png"),
+  },
+  Sounds: {
+    XpPickUp: new Sound("./sounds/xp_pick-up.wav"),
   },
 } as const;
 

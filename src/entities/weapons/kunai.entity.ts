@@ -2,6 +2,7 @@ import {
   AcquireClosestEnemyComponent,
   EnemyComponent,
   LineProjectileComponent,
+  PiercingComponent,
 } from "@components";
 import { Resources } from "@utils";
 import {
@@ -49,12 +50,7 @@ export class Kunai extends Actor {
 
     this.addComponent(new LineProjectileComponent(400));
     this.addComponent(new AcquireClosestEnemyComponent());
+    this.addComponent(new PiercingComponent(3));
   }
 
-  public onCollisionStart(_self: Collider, other: Collider): void {
-    if (other.owner.has(EnemyComponent)) {
-      other.owner.kill();
-      this.kill();
-    }
-  }
 }

@@ -1,4 +1,4 @@
-import { HeroMovementComponent } from "@components";
+import { HeroComponent, HeroMovementComponent } from "@components";
 import { GameScene } from "@scenes";
 import { Resources } from "@utils";
 import {
@@ -55,6 +55,7 @@ export class Hero extends Actor {
 
   public onInitialize(_engine: Engine): void {
     this.addComponent(new HeroMovementComponent());
+    this.addComponent(new HeroComponent());
 
     this.collider.set(Shape.Box(48, 48));
     this._setupAnimations();
