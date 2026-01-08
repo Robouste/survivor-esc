@@ -1,14 +1,17 @@
 import { Hero } from "@entities";
 import {
+  AutocleanupSystem,
   ChaseHeroSystem,
+  DamageSystem,
+  HealthSystem,
   HeroMovementSystem,
   LineProjectileSystem,
   PiercingSystem,
+  TargetingSystem,
 } from "@systems";
 import { Engine, Scene, vec } from "excalibur";
 import { Background } from "../actors/background.actor";
 import { EnemyFactory } from "../factories/enemy.factory";
-import { TargetingSystem } from "../systems/targeting.system";
 
 export class GameScene extends Scene {
   private _hero!: Hero;
@@ -29,6 +32,9 @@ export class GameScene extends Scene {
     this.world.add(new LineProjectileSystem(this.world));
     this.world.add(new TargetingSystem(this.world));
     this.world.add(new PiercingSystem(this.world));
+    this.world.add(new DamageSystem(this.world));
+    this.world.add(new HealthSystem(this.world));
+    this.world.add(new AutocleanupSystem(this.world, engine));
 
     this.camera.strategy.lockToActor(this._hero);
 

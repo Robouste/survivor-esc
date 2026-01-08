@@ -1,6 +1,7 @@
 import {
   AcquireClosestEnemyComponent,
-  EnemyComponent,
+  AutoCleanupComponent,
+  DamageComponent,
   LineProjectileComponent,
   PiercingComponent,
 } from "@components";
@@ -9,7 +10,6 @@ import {
   Actor,
   Animation,
   AnimationStrategy,
-  Collider,
   Engine,
   range,
   SpriteSheet,
@@ -51,6 +51,7 @@ export class Kunai extends Actor {
     this.addComponent(new LineProjectileComponent(400));
     this.addComponent(new AcquireClosestEnemyComponent());
     this.addComponent(new PiercingComponent(3));
+    this.addComponent(new DamageComponent(30));
+    this.addComponent(new AutoCleanupComponent());
   }
-
 }

@@ -1,6 +1,7 @@
 import {
   ChaseHeroComponent,
   EnemyComponent,
+  HealthComponent,
   XpDropComponent,
 } from "@components";
 import { Resources } from "@utils";
@@ -28,6 +29,7 @@ export class SkullBeetle extends Actor {
     this.addComponent(new EnemyComponent());
     this.addComponent(new ChaseHeroComponent(150));
     this.addComponent(new XpDropComponent(10));
+    this.addComponent(new HealthComponent(30, 30));
 
     const spritesheet = SpriteSheet.fromImageSource({
       image: Resources.SpriteSheets.SkullBeetle,

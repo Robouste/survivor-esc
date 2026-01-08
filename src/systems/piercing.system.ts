@@ -9,12 +9,10 @@ import {
   World,
 } from "excalibur";
 
-type QueryType = typeof PiercingComponent;
-
 export class PiercingSystem extends System {
   public systemType = SystemType.Update;
-  private _query: Query<QueryType>;
-  private _trackedEntities = new Set<number>();
+
+  private _query: Query<typeof PiercingComponent>;
 
   constructor(world: World) {
     super();
@@ -42,22 +40,19 @@ export class PiercingSystem extends System {
       return;
     }
 
-    const piercing = entity.get(PiercingComponent);
+    const piercingComp = entity.get(PiercingComponent);
 
     // Check if we've already hit this enemy
-    if (piercing.hitIds.has(other.id)) {
+    if (piercingComp.hitIds.has(other.id)) {
       return;
     }
 
     // Track this hit
-    piercing.hitIds.add(other.id);
-    piercing.remainingPierces--;
-
-    // Kill the enemy
-    other.kill();
+    piercingComp.hitIds.add(other.id);
+    piercingComp.remainingPierces--;
 
     // Kill the projectile if no pierces remaining
-    if (piercing.remainingPierces <= 0) {
+    if (piercingComp.remainingPierces <= 0) {
       entity.kill();
     }
   }
