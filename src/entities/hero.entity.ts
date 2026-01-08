@@ -1,5 +1,9 @@
-import { HeroComponent, HeroMovementComponent } from "@components";
-import { GameScene } from "@scenes";
+import {
+  HeroComponent,
+  HeroMovementComponent,
+  WeaponComponent,
+  WeaponType,
+} from "@components";
 import { Resources } from "@utils";
 import {
   Actor,
@@ -8,11 +12,9 @@ import {
   range,
   Shape,
   SpriteSheet,
-  Timer,
   vec,
   Vector,
 } from "excalibur";
-import { Kunai } from "./weapons/kunai.entity";
 
 type Direction = "down" | "up" | "left" | "right";
 enum HeroAnimation {
@@ -43,7 +45,7 @@ const idleMap: Record<Direction, HeroAnimation> = {
 export class Hero extends Actor {
   private _lastDirection: Direction = "down";
 
-  constructor(pos: Vector, private _gameScene: GameScene) {
+  constructor(pos: Vector) {
     super({
       pos,
       width: 128,
@@ -56,21 +58,16 @@ export class Hero extends Actor {
   public onInitialize(_engine: Engine): void {
     this.addComponent(new HeroMovementComponent());
     this.addComponent(new HeroComponent());
+    this.addComponent(
+      new WeaponComponent([
+        { type: WeaponType.Knife, overrides: { projectileCount: 3 } },
+        { type: WeaponType.Kunai, overrides: { projectileCount: 5 } },
+        { type: WeaponType.Fireball, overrides: { projectileCount: 1 } },
+      ])
+    );
 
     this.collider.set(Shape.Box(48, 48));
     this._setupAnimations();
-
-    const projectileTimer = new Timer({
-      interval: 5000,
-      repeats: true,
-      action: () => {
-        const projectile = new Kunai(this.pos.clone());
-        this._gameScene.add(projectile);
-      },
-    });
-
-    this._gameScene.add(projectileTimer);
-    projectileTimer.start();
   }
 
   public onPreUpdate(engine: Engine, elapsed: number): void {

@@ -9,4 +9,5 @@ export * from './hero.component';
 export * from './line-projectile.component';
 export * from './piercing.component';
 export * from './target.component';
+export * from './weapon.component';
 export * from './xp-drop.component';

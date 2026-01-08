@@ -8,6 +8,7 @@ import {
   LineProjectileSystem,
   PiercingSystem,
   TargetingSystem,
+  WeaponSystem,
 } from "@systems";
 import { Engine, Scene, vec } from "excalibur";
 import { Background } from "../actors/background.actor";
@@ -18,10 +19,7 @@ export class GameScene extends Scene {
   private _enemyFactory!: EnemyFactory;
 
   public onInitialize(engine: Engine): void {
-    this._hero = new Hero(
-      vec(engine.drawWidth / 2, engine.drawHeight / 2),
-      this
-    );
+    this._hero = new Hero(vec(engine.drawWidth / 2, engine.drawHeight / 2));
     this.add(this._hero);
 
     this._enemyFactory = new EnemyFactory(this);
@@ -29,6 +27,7 @@ export class GameScene extends Scene {
 
     this.world.add(new HeroMovementSystem(this.world, engine.input.keyboard));
     this.world.add(new ChaseHeroSystem(this.world, this._hero));
+    this.world.add(new WeaponSystem(this.world, this));
     this.world.add(new LineProjectileSystem(this.world));
     this.world.add(new TargetingSystem(this.world));
     this.world.add(new PiercingSystem(this.world));

@@ -5,14 +5,14 @@ import {
   System,
   SystemType,
   TransformComponent,
+  Vector,
   World,
 } from "excalibur";
 
 type QueryType =
   | typeof LineProjectileComponent
   | typeof MotionComponent
-  | typeof TransformComponent
-  | typeof TargetComponent;
+  | typeof TransformComponent;
 
 export class LineProjectileSystem extends System {
   public systemType = SystemType.Update;
@@ -25,29 +25,37 @@ export class LineProjectileSystem extends System {
       LineProjectileComponent,
       MotionComponent,
       TransformComponent,
-      TargetComponent,
     ]);
   }
 
   public update(_elapsed: number): void {
     for (const entity of this._query.entities) {
-      const speed = entity.get(LineProjectileComponent).speed;
+      const lineProjectile = entity.get(LineProjectileComponent);
       const motionComp = entity.get(MotionComponent);
       const transformComp = entity.get(TransformComponent);
-      const pos = transformComp.pos;
-      const targetEntity = entity.get(TargetComponent).entity;
 
-      if (!targetEntity.isKilled()) {
+      let direction: Vector | undefined = lineProjectile.direction;
+
+      if (!direction) {
+        if (!entity.has(TargetComponent)) {
+          continue;
+        }
+
+        const targetEntity = entity.get(TargetComponent)!.entity;
+
+        if (targetEntity.isKilled()) {
+          entity.kill();
+          continue;
+        }
+
         const targetPos = targetEntity.get(TransformComponent).pos;
-        const direction = targetPos.sub(pos).normalize();
-
-        motionComp.vel = direction.scale(speed);
-        transformComp.rotation = direction.toAngle();
-
-        entity.removeComponent(LineProjectileComponent);
-      } else {
-        entity.kill();
+        direction = targetPos.sub(transformComp.pos).normalize();
       }
+
+      motionComp.vel = direction.scale(lineProjectile.speed);
+      transformComp.rotation = direction.toAngle();
+
+      entity.removeComponent(LineProjectileComponent);
     }
   }
 }

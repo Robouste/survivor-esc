@@ -1,7 +1,10 @@
-import { Component } from "excalibur";
+import { Component, Vector } from "excalibur";
 
 export class LineProjectileComponent extends Component {
-  constructor(public speed: number, public piercing = 1) {
+  constructor(
+    public speed: number,
+    public direction?: Vector
+  ) {
     super();
   }
 }
