@@ -1,11 +1,5 @@
-import {
-  AcquireClosestEnemyComponent,
-  AutoCleanupComponent,
-  DamageComponent,
-  LineProjectileComponent,
-  PiercingComponent,
-} from "@components";
-import { Resources } from "@utils";
+import { LineProjectileComponent } from "@components";
+import { getBaseWeaponComponents, Resources, WeaponConfig } from "@utils";
 import {
   Actor,
   Animation,
@@ -17,7 +11,11 @@ import {
 } from "excalibur";
 
 export class Knife extends Actor {
-  constructor(pos: Vector, private _direction?: Vector) {
+  constructor(
+    pos: Vector,
+    private _config: WeaponConfig,
+    private _direction?: Vector
+  ) {
     super({
       pos,
       width: 32,
@@ -49,12 +47,8 @@ export class Knife extends Actor {
 
     this.addComponent(new LineProjectileComponent(400, this._direction));
 
-    if (!this._direction) {
-      this.addComponent(new AcquireClosestEnemyComponent());
+    for (const component of getBaseWeaponComponents(this._config)) {
+      this.addComponent(component);
     }
-
-    this.addComponent(new PiercingComponent(3));
-    this.addComponent(new DamageComponent(30));
-    this.addComponent(new AutoCleanupComponent());
   }
 }

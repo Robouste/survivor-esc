@@ -1,10 +1,9 @@
 import {
   HeroComponent,
   HeroMovementComponent,
-  WeaponComponent,
-  WeaponType,
+  WeaponsComponent,
 } from "@components";
-import { Resources } from "@utils";
+import { Resources, WeaponType } from "@utils";
 import {
   Actor,
   Animation,
@@ -58,13 +57,7 @@ export class Hero extends Actor {
   public onInitialize(_engine: Engine): void {
     this.addComponent(new HeroMovementComponent());
     this.addComponent(new HeroComponent());
-    this.addComponent(
-      new WeaponComponent([
-        { type: WeaponType.Knife, overrides: { projectileCount: 3 } },
-        { type: WeaponType.Kunai, overrides: { projectileCount: 5 } },
-        { type: WeaponType.Fireball, overrides: { projectileCount: 1 } },
-      ])
-    );
+    this.addComponent(new WeaponsComponent([{ type: WeaponType.Knife }]));
 
     this.collider.set(Shape.Box(48, 48));
     this._setupAnimations();

@@ -7,7 +7,6 @@ import {
   HeroMovementSystem,
   LineProjectileSystem,
   PiercingSystem,
-  TargetingSystem,
   WeaponSystem,
 } from "@systems";
 import { Engine, Scene, vec } from "excalibur";
@@ -29,7 +28,6 @@ export class GameScene extends Scene {
     this.world.add(new ChaseHeroSystem(this.world, this._hero));
     this.world.add(new WeaponSystem(this.world, this));
     this.world.add(new LineProjectileSystem(this.world));
-    this.world.add(new TargetingSystem(this.world));
     this.world.add(new PiercingSystem(this.world));
     this.world.add(new DamageSystem(this.world));
     this.world.add(new HealthSystem(this.world));

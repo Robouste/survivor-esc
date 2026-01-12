@@ -22,6 +22,7 @@ This is a survivor-style game built with **Excalibur.js** (v0.32.0) using an **E
 - `DamageComponent`, `HealthComponent` - Combat stats
 - `LineProjectileComponent`, `PiercingComponent` - Projectile behavior
 - `TargetComponent`, `AcquireClosestEnemyComponent` - Targeting system data
+- `WeaponsComponent` - Holds multiple weapons with their state and levels
 - `XpDropComponent`, `AutoCleanupComponent` - Misc entity lifecycle
 
 **Systems** (`src/systems/`) - Logic that processes entities with matching components:
@@ -33,7 +34,7 @@ This is a survivor-style game built with **Excalibur.js** (v0.32.0) using an **E
 **Entities** (`src/entities/`) - Actors with attached components:
 - `Hero` - Player character with movement, animations
 - `Enemy`, `SkullBeetle` - Enemy types in `enemies/` subfolder
-- `Projectile`, `Kunai` - Weapons in `weapons/` subfolder
+- `Kunai`, `Knife`, `Fireball` - Weapon projectiles in `weapons/` subfolder
 
 ### Path Aliases
 
@@ -49,3 +50,4 @@ Configured in `tsconfig.json` and resolved by `vite-tsconfig-paths`:
 - **Factories**: `EnemyFactory` handles spawning enemies on timers
 - **Resources**: All assets (sprites, sounds) loaded via `src/utils/resources.ts` using Excalibur's `Loader`
 - **Scenes**: `MainMenuScene` and `GameScene` - systems are added to scene's `world`
+- **Weapon Config**: `src/utils/weapons.config.ts` defines weapon types, firing patterns, base stats, and level upgrades using a data-driven approach with `WeaponDefinition` records

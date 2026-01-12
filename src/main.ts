@@ -10,7 +10,7 @@ const game = new Engine({
   height: 600,
   displayMode: DisplayMode.FillScreen,
   pixelArt: true,
-  pixelRatio: 2,
+  pixelRatio: 1,
   scenes: {
     mainMenu: MainMenuScene,
     game: GameScene,

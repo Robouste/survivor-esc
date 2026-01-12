@@ -1,11 +1,6 @@
-import {
-  EnemyComponent,
-  FiringPattern,
-  WeaponComponent,
-  WeaponConfig,
-  WeaponType,
-} from "@components";
+import { EnemyComponent, WeaponsComponent } from "@components";
 import { Fireball, Knife, Kunai } from "@entities";
+import { FiringPattern, WeaponConfig, WeaponType } from "@utils";
 import {
   Entity,
   Query,
@@ -21,20 +16,20 @@ export class WeaponSystem extends System {
   public systemType = SystemType.Update;
 
   private _weaponHolders: Query<
-    typeof WeaponComponent | typeof TransformComponent
+    typeof WeaponsComponent | typeof TransformComponent
   >;
   private _enemies: Query<typeof EnemyComponent | typeof TransformComponent>;
 
   constructor(world: World, private _scene: Scene) {
     super();
 
-    this._weaponHolders = world.query([WeaponComponent, TransformComponent]);
+    this._weaponHolders = world.query([WeaponsComponent, TransformComponent]);
     this._enemies = world.query([EnemyComponent, TransformComponent]);
   }
 
   public update(elapsed: number): void {
     for (const entity of this._weaponHolders.entities) {
-      const weaponComponent = entity.get(WeaponComponent);
+      const weaponComponent = entity.get(WeaponsComponent);
 
       for (const weapon of weaponComponent.weapons) {
         weapon.elapsedTime += elapsed;
@@ -103,19 +98,19 @@ export class WeaponSystem extends System {
     type: WeaponType,
     pos: Vector,
     direction: Vector,
-    _config: WeaponConfig
+    config: WeaponConfig
   ): void {
     switch (type) {
       case WeaponType.Knife:
-        const knife = new Knife(pos, direction);
+        const knife = new Knife(pos, config, direction);
         this._scene.add(knife);
         break;
       case WeaponType.Kunai:
-        const kunai = new Kunai(pos, direction);
+        const kunai = new Kunai(pos, config, direction);
         this._scene.add(kunai);
         break;
       case WeaponType.Fireball:
-        const fireball = new Fireball(pos, direction);
+        const fireball = new Fireball(pos, config, direction);
         this._scene.add(fireball);
         break;
     }
