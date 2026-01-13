@@ -19,6 +19,7 @@
       "@entities": ["./src/entities/index.ts"],
       "@scenes": ["./src/scenes/index.ts"],
       "@systems": ["./src/systems/index.ts"],
+      "@ui": ["./src/ui/index.ts"],
       "@utils": ["./src/utils/index.ts"]
     }
   },

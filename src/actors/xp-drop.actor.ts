@@ -31,7 +31,9 @@ export class XpDrop extends Actor {
   ): void {
     if (other.owner.has(HeroComponent)) {
       other.owner.get(HeroComponent)!.xp += this.amount;
-      Resources.Sounds.XpPickUp.play();
+      Resources.Sounds.XpPickUp.play({
+        volume: 0.1,
+      });
       this.kill();
     }
   }

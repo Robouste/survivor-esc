@@ -1,4 +1,8 @@
-import { ImageSource, Loader, Sound } from "excalibur";
+import { FontSource, ImageSource, Loader, Sound } from "excalibur";
+
+export enum FontName {
+  Rpg = "rpg",
+}
 
 // It is convenient to put your resources in one place
 export const Resources = {
@@ -10,8 +14,15 @@ export const Resources = {
     Fireball: new ImageSource("./spritesheets/weapons/fireball.png"),
     SkullBeetle: new ImageSource("./spritesheets/enemies/skull-beetle.png"),
   },
+  Ui: {
+    DialogBox: new ImageSource("./ui/dialog-box.png"),
+    OptionSelect: new ImageSource("./ui/option-select.png"),
+  },
   Sounds: {
     XpPickUp: new Sound("./sounds/xp_pick-up.wav"),
+  },
+  Fonts: {
+    Rpg: new FontSource("./fonts/rpg.ttf", FontName.Rpg),
   },
 } as const;
 

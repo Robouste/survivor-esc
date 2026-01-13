@@ -9,6 +9,7 @@ import {
   PiercingSystem,
   WeaponSystem,
 } from "@systems";
+import { LevelUpUi } from "@ui";
 import { Engine, Scene, vec } from "excalibur";
 import { Background } from "../actors/background.actor";
 import { EnemyFactory } from "../factories/enemy.factory";
@@ -36,5 +37,19 @@ export class GameScene extends Scene {
     this.camera.strategy.lockToActor(this._hero);
 
     this.add(new Background(64));
+
+    const test = new LevelUpUi(this.camera);
+    this.add(test);
+
+    // const temp = new Timer({
+    //   interval: 2000,
+    //   repeats: true,
+    //   action: () => {
+    //     console.log("camera", Vector.Half);
+    //   },
+    // });
+
+    // this.add(temp);
+    // temp.start();
   }
 }

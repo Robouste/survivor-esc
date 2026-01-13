@@ -12,6 +12,23 @@ import {
 } from "excalibur";
 
 export class Kunai extends Actor {
+  public static spritesheet = SpriteSheet.fromImageSource({
+    image: Resources.SpriteSheets.Kunai,
+    grid: {
+      rows: 1,
+      columns: 8,
+      spriteWidth: 32,
+      spriteHeight: 16,
+    },
+  });
+
+  public static animation = Animation.fromSpriteSheet(
+    Kunai.spritesheet,
+    range(0, 7),
+    50,
+    AnimationStrategy.Loop
+  );
+
   constructor(
     pos: Vector,
     private _config: WeaponConfig,
@@ -26,24 +43,7 @@ export class Kunai extends Actor {
   }
 
   public onInitialize(_engine: Engine): void {
-    const spritesheet = SpriteSheet.fromImageSource({
-      image: Resources.SpriteSheets.Kunai,
-      grid: {
-        rows: 1,
-        columns: 8,
-        spriteWidth: 32,
-        spriteHeight: 16,
-      },
-    });
-
-    const animation = Animation.fromSpriteSheet(
-      spritesheet,
-      range(0, 7),
-      50,
-      AnimationStrategy.Loop
-    );
-
-    this.graphics.add("flying", animation);
+    this.graphics.add("flying", Kunai.animation);
     this.graphics.use("flying");
 
     this.addComponent(new LineProjectileComponent(400, this._direction));
