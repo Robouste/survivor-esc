@@ -35,7 +35,7 @@ export class OptionSelect extends ScreenElement {
       pos: options.pos,
       width: options.width,
       height: options.height,
-      anchor: vec(0, 0),
+      anchor: vec(0.5, 0.5),
     });
 
     this._box = new NineSlice({
@@ -59,7 +59,7 @@ export class OptionSelect extends ScreenElement {
 
     this._name = new Label({
       text: options.name,
-      pos: vec(this.width / 2, 48),
+      pos: vec(0, -this.height / 2 + 48),
       font: new Font({
         size: 18,
         family: FontName.Rpg,
@@ -69,7 +69,7 @@ export class OptionSelect extends ScreenElement {
     });
 
     this._image = new Actor({
-      pos: vec(this.width / 2, this.height / 2),
+      pos: vec(0, 0),
       width: options.image.width,
       height: options.image.height,
       anchor: vec(0.5, 0.5),
@@ -80,7 +80,7 @@ export class OptionSelect extends ScreenElement {
 
     this._text = new Label({
       text: options.text,
-      pos: vec(this.width / 2, this._image.pos.y + this._image.height + 32),
+      pos: vec(0, this._image.pos.y + this._image.height + 32),
       font: new Font({
         size: 16,
         family: FontName.Rpg,
@@ -96,5 +96,13 @@ export class OptionSelect extends ScreenElement {
     this.addChild(this._name);
     this.addChild(this._image);
     this.addChild(this._text);
+
+    this.on("pointerenter", () => {
+      this.scale = vec(1.05, 1.05);
+    });
+
+    this.on("pointerleave", () => {
+      this.scale = vec(1, 1);
+    });
   }
 }

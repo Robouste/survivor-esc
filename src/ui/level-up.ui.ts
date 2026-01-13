@@ -18,7 +18,7 @@ export class LevelUpUi extends ScreenElement {
     });
   }
 
-  public async onInitialize(engine: Engine): Promise<void> {
+  public onInitialize(engine: Engine): void {
     const dialog = new DialogBox({
       width: this.width,
       height: this.height,
@@ -30,8 +30,8 @@ export class LevelUpUi extends ScreenElement {
     const spacing = 32;
     const optionWidth = (this.width - spacing * 4) / 3; // 4 = gaps, 3 = number of options
     const optionHeight = this.height * 0.75;
-    const y = -this.height / 4 - spacing;
-    const left = -(this.width / 2);
+    const y = -this.height / 4 - spacing + optionHeight / 2;
+    const left = -(this.width / 2) + optionWidth / 2;
 
     const option1 = new OptionSelect({
       name: "Kunai",
