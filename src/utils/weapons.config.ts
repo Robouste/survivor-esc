@@ -1,6 +1,7 @@
 import {
   AutoCleanupComponent,
   DamageComponent,
+  PausableComponent,
   PiercingComponent,
 } from "@components";
 import { Component } from "excalibur";
@@ -122,5 +123,6 @@ export const getBaseWeaponComponents = (config: WeaponConfig): Component[] => {
     new DamageComponent(config.damage),
     new PiercingComponent(config.piercing),
     new AutoCleanupComponent(),
+    new PausableComponent(),
   ];
 };

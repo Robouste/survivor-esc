@@ -1,4 +1,5 @@
 import { LineProjectileComponent, TargetComponent } from "@components";
+import { GameState } from "@utils";
 import {
   MotionComponent,
   Query,
@@ -29,6 +30,10 @@ export class LineProjectileSystem extends System {
   }
 
   public update(_elapsed: number): void {
+    if (GameState.isPaused) {
+      return;
+    }
+
     for (const entity of this._query.entities) {
       const lineProjectile = entity.get(LineProjectileComponent);
       const motionComp = entity.get(MotionComponent);

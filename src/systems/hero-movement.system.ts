@@ -1,4 +1,5 @@
 import { HeroMovementComponent } from "@components";
+import { GameState } from "@utils";
 import {
   Keyboard,
   Keys,
@@ -21,6 +22,10 @@ export class HeroMovementSystem extends System {
   }
 
   public update(_elapsed: number): void {
+    if (GameState.isPaused) {
+      return;
+    }
+
     const hero = this._query.entities.at(0);
 
     if (!hero) {

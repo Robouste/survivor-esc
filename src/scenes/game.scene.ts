@@ -9,11 +9,13 @@ import {
   HeroLevelingSystem,
   HeroMovementSystem,
   LineProjectileSystem,
+  PauseSystem,
   PiercingSystem,
   WeaponSystem,
   XpDropSystem,
 } from "@systems";
 import { LevelUpUi } from "@ui";
+import { GameState } from "@utils";
 import { Engine, Entity, Scene, vec } from "excalibur";
 import { Background } from "../actors/background.actor";
 import { EnemyFactory } from "../factories/enemy.factory";
@@ -38,7 +40,7 @@ export class GameScene extends Scene {
     this.world.add(new HeroMovementSystem(this.world, engine.input.keyboard));
 
     const levelingSystem = new HeroLevelingSystem(this.world);
-    levelingSystem.onLevelUp(({ hero }) => this.showLevelUpUi(engine, hero));
+    levelingSystem.onLevelUp(({ hero }) => this.showLevelUpUi(hero));
     this.world.add(levelingSystem);
 
     this.world.add(new ChaseHeroSystem(this.world, this._hero));
@@ -50,20 +52,23 @@ export class GameScene extends Scene {
     this.world.add(new AutocleanupSystem(this.world, engine));
     this.world.add(new XpDropSystem(this.world, this));
     this.world.add(new AttractedSystem(this.world));
+    this.world.add(new PauseSystem(this.world));
 
     this.camera.strategy.lockToActor(this._hero);
 
     this.add(new Background(64));
   }
 
-  private showLevelUpUi(engine: Engine, hero: Entity): void {
-    engine.timescale = 0;
+  private showLevelUpUi(hero: Entity): void {
+    GameState.pause();
+
+    this._enemyFactory.stop();
 
     const context = { hero };
     const rewards = this._rewardService.generateRewardOptions(context, 3);
 
     if (rewards.length === 0) {
-      engine.timescale = 1;
+      this.hideLevelUpUi();
       return;
     }
 
@@ -72,18 +77,19 @@ export class GameScene extends Scene {
       rewards,
       onSelect: (reward) => {
         this._rewardService.applyReward(context, reward);
-        this.hideLevelUpUi(engine);
+        this.hideLevelUpUi();
       },
     });
 
     this.add(this._levelUpUi);
   }
 
-  private hideLevelUpUi(engine: Engine): void {
+  private hideLevelUpUi(): void {
     if (this._levelUpUi) {
       this._levelUpUi.kill();
       this._levelUpUi = null;
     }
-    engine.timescale = 1;
+    GameState.resume();
+    this._enemyFactory.start();
   }
 }

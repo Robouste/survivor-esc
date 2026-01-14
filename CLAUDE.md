@@ -59,3 +59,12 @@ Configured in `tsconfig.json` and resolved by `vite-tsconfig-paths`:
 - **Resources**: All assets (sprites, sounds) loaded via `src/utils/resources.ts` using Excalibur's `Loader`
 - **Scenes**: `MainMenuScene` and `GameScene` - systems are added to scene's `world`
 - **Weapon Config**: `src/utils/weapons.config.ts` defines weapon types, firing patterns, base stats, and level upgrades using a data-driven approach with `WeaponDefinition` records
+
+### Coding guidelines
+
+- Clean code
+- Type safe (no any or as)
+- no one-line if
+- private variables and methods start with underscore
+- always specify accessor (except for constructor)
+- no inferrable types

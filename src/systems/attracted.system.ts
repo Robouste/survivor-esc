@@ -1,5 +1,5 @@
 import { AttractedComponent, HeroComponent } from "@components";
-import { VariablesConfig } from "@utils";
+import { GameState, VariablesConfig } from "@utils";
 import {
   MotionComponent,
   Query,
@@ -30,7 +30,11 @@ export class AttractedSystem extends System {
     ]);
   }
 
-  public update(): void {
+  public update(_elapsed: number): void {
+    if (GameState.isPaused) {
+      return;
+    }
+
     const hero = this._heroQuery.entities[0];
 
     if (!hero) {

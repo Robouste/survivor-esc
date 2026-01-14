@@ -1,5 +1,6 @@
 import { ChaseHeroComponent } from "@components";
 import { Hero } from "@entities";
+import { GameState } from "@utils";
 import {
   BodyComponent,
   MotionComponent,
@@ -26,6 +27,10 @@ export class ChaseHeroSystem extends System {
   }
 
   public update(_elapsed: number): void {
+    if (GameState.isPaused) {
+      return;
+    }
+
     for (const entity of this._query.entities) {
       const chaseComp = entity.get(ChaseHeroComponent);
       const motionComp = entity.get(MotionComponent);

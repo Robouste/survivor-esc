@@ -1,6 +1,7 @@
 import {
   HeroComponent,
   HeroMovementComponent,
+  PausableComponent,
   WeaponsComponent,
 } from "@components";
 import { Resources, WeaponType } from "@utils";
@@ -55,9 +56,10 @@ export class Hero extends Actor {
   }
 
   public onInitialize(_engine: Engine): void {
-    this.addComponent(new HeroMovementComponent());
-    this.addComponent(new HeroComponent());
-    this.addComponent(new WeaponsComponent([{ type: WeaponType.Knife }]));
+    this.addComponent(new HeroMovementComponent())
+      .addComponent(new HeroComponent())
+      .addComponent(new WeaponsComponent([{ type: WeaponType.Knife }]))
+      .addComponent(new PausableComponent());
 
     this.collider.set(Shape.Box(18, 24, this.anchor, vec(0, 16)));
     this._setupAnimations();

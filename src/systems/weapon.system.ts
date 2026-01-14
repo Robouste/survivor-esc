@@ -1,6 +1,6 @@
 import { EnemyComponent, WeaponsComponent } from "@components";
 import { Fireball, Knife, Kunai } from "@entities";
-import { FiringPattern, WeaponConfig, WeaponType } from "@utils";
+import { FiringPattern, GameState, WeaponConfig, WeaponType } from "@utils";
 import {
   Entity,
   Query,
@@ -28,6 +28,10 @@ export class WeaponSystem extends System {
   }
 
   public update(elapsed: number): void {
+    if (GameState.isPaused) {
+      return;
+    }
+
     for (const entity of this._weaponHolders.entities) {
       const weaponComponent = entity.get(WeaponsComponent);
 
