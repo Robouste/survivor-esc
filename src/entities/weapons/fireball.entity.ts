@@ -1,16 +1,12 @@
 import { LineProjectileComponent } from "@components";
-import { getBaseWeaponComponents, Resources, WeaponConfig } from "@utils";
-import {
-  Actor,
-  Animation,
-  AnimationStrategy,
-  Engine,
-  range,
-  SpriteSheet,
-  Vector,
-} from "excalibur";
+import { AnimationFactory, AnimationName } from "@factories";
+import { HasAnimation } from "@interfaces";
+import { getBaseWeaponComponents, WeaponConfig } from "@utils";
+import { Actor, Engine, Vector } from "excalibur";
 
-export class Fireball extends Actor {
+export class Fireball extends Actor implements HasAnimation {
+  public animationName = AnimationName.Fireball;
+
   constructor(
     pos: Vector,
     private _config: WeaponConfig,
@@ -24,23 +20,8 @@ export class Fireball extends Actor {
     });
   }
 
-  public onInitialize(engine: Engine): void {
-    const spritesheet = SpriteSheet.fromImageSource({
-      image: Resources.SpriteSheets.Fireball,
-      grid: {
-        rows: 1,
-        columns: 10,
-        spriteWidth: 72,
-        spriteHeight: 32,
-      },
-    });
-
-    const animation = Animation.fromSpriteSheet(
-      spritesheet,
-      range(0, 9),
-      50,
-      AnimationStrategy.Loop
-    );
+  public onInitialize(_engine: Engine): void {
+    const animation = AnimationFactory.get(this.animationName);
 
     this.graphics.add("flying", animation);
     this.graphics.use("flying");

@@ -1,33 +1,11 @@
 import { LineProjectileComponent } from "@components";
-import { getBaseWeaponComponents, Resources, WeaponConfig } from "@utils";
-import {
-  Actor,
-  Animation,
-  AnimationStrategy,
-  Engine,
-  range,
-  SpriteSheet,
-  vec,
-  Vector,
-} from "excalibur";
+import { AnimationFactory, AnimationName } from "@factories";
+import { HasAnimation } from "@interfaces";
+import { getBaseWeaponComponents, WeaponConfig } from "@utils";
+import { Actor, Engine, vec, Vector } from "excalibur";
 
-export class Kunai extends Actor {
-  public static spritesheet = SpriteSheet.fromImageSource({
-    image: Resources.SpriteSheets.Kunai,
-    grid: {
-      rows: 1,
-      columns: 8,
-      spriteWidth: 32,
-      spriteHeight: 16,
-    },
-  });
-
-  public static animation = Animation.fromSpriteSheet(
-    Kunai.spritesheet,
-    range(0, 7),
-    50,
-    AnimationStrategy.Loop
-  );
+export class Kunai extends Actor implements HasAnimation {
+  public animationName = AnimationName.Kunai;
 
   constructor(
     pos: Vector,
@@ -43,7 +21,8 @@ export class Kunai extends Actor {
   }
 
   public onInitialize(_engine: Engine): void {
-    this.graphics.add("flying", Kunai.animation);
+    const animation = AnimationFactory.get(this.animationName);
+    this.graphics.add("flying", animation);
     this.graphics.use("flying");
 
     this.addComponent(new LineProjectileComponent(400, this._direction));

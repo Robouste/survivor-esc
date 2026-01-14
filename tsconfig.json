@@ -17,6 +17,8 @@
     "paths": {
       "@components": ["./src/components/index.ts"],
       "@entities": ["./src/entities/index.ts"],
+      "@factories": ["./src/factories/index.ts"],
+      "@interfaces": ["./src/interfaces/index.ts"],
       "@scenes": ["./src/scenes/index.ts"],
       "@systems": ["./src/systems/index.ts"],
       "@ui": ["./src/ui/index.ts"],

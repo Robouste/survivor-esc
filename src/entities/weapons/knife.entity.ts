@@ -1,16 +1,12 @@
 import { LineProjectileComponent } from "@components";
-import { getBaseWeaponComponents, Resources, WeaponConfig } from "@utils";
-import {
-  Actor,
-  Animation,
-  AnimationStrategy,
-  Engine,
-  range,
-  SpriteSheet,
-  Vector,
-} from "excalibur";
+import { AnimationFactory, AnimationName } from "@factories";
+import { HasAnimation } from "@interfaces";
+import { getBaseWeaponComponents, WeaponConfig } from "@utils";
+import { Actor, Engine, Vector } from "excalibur";
 
-export class Knife extends Actor {
+export class Knife extends Actor implements HasAnimation {
+  public animationName = AnimationName.Knife;
+
   constructor(
     pos: Vector,
     private _config: WeaponConfig,
@@ -25,22 +21,7 @@ export class Knife extends Actor {
   }
 
   public onInitialize(engine: Engine): void {
-    const spritesheet = SpriteSheet.fromImageSource({
-      image: Resources.SpriteSheets.Knife,
-      grid: {
-        rows: 1,
-        columns: 16,
-        spriteWidth: 32,
-        spriteHeight: 32,
-      },
-    });
-
-    const animation = Animation.fromSpriteSheet(
-      spritesheet,
-      range(0, 15),
-      50,
-      AnimationStrategy.Loop
-    );
+    const animation = AnimationFactory.get(this.animationName);
 
     this.graphics.add("flying", animation);
     this.graphics.use("flying");
