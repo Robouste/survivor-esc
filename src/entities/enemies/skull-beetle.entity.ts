@@ -30,7 +30,7 @@ export class SkullBeetle extends Actor {
   public onInitialize(engine: Engine): void {
     this.addComponent(new EnemyComponent());
     this.addComponent(new ChaseHeroComponent(150));
-    this.addComponent(new XpDropComponent(10));
+    this.addComponent(new XpDropComponent(100));
     this.addComponent(new HealthComponent(8));
 
     const spritesheet = SpriteSheet.fromImageSource({

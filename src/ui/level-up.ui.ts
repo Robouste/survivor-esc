@@ -1,24 +1,35 @@
-import { AnimationFactory, AnimationName } from "@factories";
+import { Reward } from "@rewards";
 import { Camera, Engine, ScreenElement, vec, Vector } from "excalibur";
 import { DialogBox } from "./dialog-box.ui";
 import { OptionSelect } from "./option-select.ui";
 
+export interface LevelUpUiOptions {
+  camera: Camera;
+  rewards: Reward[];
+  onSelect: (reward: Reward) => void;
+}
+
 export class LevelUpUi extends ScreenElement {
-  constructor(camera: Camera) {
-    const x = camera.pos.x;
-    const y = camera.pos.y;
-    const width = Math.max(800, camera.viewport.width * 0.8);
+  private _rewards: Reward[];
+  private _onSelect: (reward: Reward) => void;
+
+  constructor(options: LevelUpUiOptions) {
+    const viewport = options.camera.viewport;
+    const width = Math.max(800, viewport.width * 0.8);
 
     super({
-      pos: vec(x, y),
+      pos: vec(viewport.width / 2, viewport.height / 2),
       anchor: Vector.Half,
       width,
       height: width / 2,
       z: 10000,
     });
+
+    this._rewards = options.rewards;
+    this._onSelect = options.onSelect;
   }
 
-  public onInitialize(engine: Engine): void {
+  public onInitialize(_engine: Engine): void {
     const dialog = new DialogBox({
       width: this.width,
       height: this.height,
@@ -27,41 +38,27 @@ export class LevelUpUi extends ScreenElement {
 
     this.addChild(dialog);
 
+    const rewardCount = this._rewards.length;
     const spacing = 32;
-    const optionWidth = (this.width - spacing * 4) / 3; // 4 = gaps, 3 = number of options
+    const optionWidth = (this.width - spacing * (rewardCount + 1)) / rewardCount;
     const optionHeight = this.height * 0.75;
     const y = -this.height / 4 - spacing + optionHeight / 2;
-    const left = -(this.width / 2) + optionWidth / 2;
+    const totalWidth = rewardCount * optionWidth + (rewardCount - 1) * spacing;
+    const startX = -totalWidth / 2 + optionWidth / 2;
 
-    const option1 = new OptionSelect({
-      name: "Kunai 1",
-      text: "Increase damage",
-      image: AnimationFactory.get(AnimationName.Kunai),
-      pos: vec(left + spacing, y),
-      width: optionWidth,
-      height: optionHeight,
-    });
+    for (let i = 0; i < rewardCount; i++) {
+      const reward = this._rewards[i];
+      const option = new OptionSelect({
+        name: reward.name,
+        text: reward.description,
+        image: reward.getAnimation(),
+        pos: vec(startX + i * (optionWidth + spacing), y),
+        width: optionWidth,
+        height: optionHeight,
+      });
 
-    const option2 = new OptionSelect({
-      name: "Kunai 2",
-      text: "Increase damage",
-      image: AnimationFactory.get(AnimationName.Kunai),
-      pos: vec(option1.pos.x + optionWidth + spacing, y),
-      width: optionWidth,
-      height: optionHeight,
-    });
-
-    const option3 = new OptionSelect({
-      name: "Kunai 3",
-      text: "Increase damage",
-      image: AnimationFactory.get(AnimationName.Kunai),
-      pos: vec(option2.pos.x + optionWidth + spacing, y),
-      width: optionWidth,
-      height: optionHeight,
-    });
-
-    dialog.addChild(option1);
-    dialog.addChild(option2);
-    dialog.addChild(option3);
+      option.events.on("selected", () => this._onSelect(reward));
+      dialog.addChild(option);
+    }
   }
 }

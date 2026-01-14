@@ -1,4 +1,5 @@
 import { Hero } from "@entities";
+import { RewardService, WeaponRewardProvider } from "@rewards";
 import {
   AttractedSystem,
   AutocleanupSystem,
@@ -12,13 +13,16 @@ import {
   WeaponSystem,
   XpDropSystem,
 } from "@systems";
-import { Engine, Scene, vec } from "excalibur";
+import { LevelUpUi } from "@ui";
+import { Engine, Entity, Scene, vec } from "excalibur";
 import { Background } from "../actors/background.actor";
 import { EnemyFactory } from "../factories/enemy.factory";
 
 export class GameScene extends Scene {
   private _hero!: Hero;
   private _enemyFactory!: EnemyFactory;
+  private _rewardService!: RewardService;
+  private _levelUpUi: LevelUpUi | null = null;
 
   public onInitialize(engine: Engine): void {
     this._hero = new Hero(vec(engine.drawWidth / 2, engine.drawHeight / 2));
@@ -27,8 +31,16 @@ export class GameScene extends Scene {
     this._enemyFactory = new EnemyFactory(this);
     this._enemyFactory.start();
 
+    // Setup reward system
+    this._rewardService = new RewardService();
+    this._rewardService.registerProvider(new WeaponRewardProvider());
+
     this.world.add(new HeroMovementSystem(this.world, engine.input.keyboard));
-    this.world.add(new HeroLevelingSystem(this.world, engine));
+
+    const levelingSystem = new HeroLevelingSystem(this.world);
+    levelingSystem.onLevelUp(({ hero }) => this.showLevelUpUi(engine, hero));
+    this.world.add(levelingSystem);
+
     this.world.add(new ChaseHeroSystem(this.world, this._hero));
     this.world.add(new WeaponSystem(this.world, this));
     this.world.add(new LineProjectileSystem(this.world));
@@ -42,19 +54,36 @@ export class GameScene extends Scene {
     this.camera.strategy.lockToActor(this._hero);
 
     this.add(new Background(64));
+  }
 
-    // const test = new LevelUpUi(this.camera);
-    // this.add(test);
+  private showLevelUpUi(engine: Engine, hero: Entity): void {
+    engine.timescale = 0;
 
-    // const temp = new Timer({
-    //   interval: 2000,
-    //   repeats: true,
-    //   action: () => {
-    //     console.log("camera", Vector.Half);
-    //   },
-    // });
+    const context = { hero };
+    const rewards = this._rewardService.generateRewardOptions(context, 3);
 
-    // this.add(temp);
-    // temp.start();
+    if (rewards.length === 0) {
+      engine.timescale = 1;
+      return;
+    }
+
+    this._levelUpUi = new LevelUpUi({
+      camera: this.camera,
+      rewards,
+      onSelect: (reward) => {
+        this._rewardService.applyReward(context, reward);
+        this.hideLevelUpUi(engine);
+      },
+    });
+
+    this.add(this._levelUpUi);
+  }
+
+  private hideLevelUpUi(engine: Engine): void {
+    if (this._levelUpUi) {
+      this._levelUpUi.kill();
+      this._levelUpUi = null;
+    }
+    engine.timescale = 1;
   }
 }
