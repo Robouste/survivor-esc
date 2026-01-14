@@ -3,6 +3,7 @@ export * from "./auto-cleanup.system";
 export * from "./chase-hero.system";
 export * from "./damage.system";
 export * from "./health.system";
+export * from "./hero-leveling.system";
 export * from "./hero-movement.system";
 export * from "./line-projectile.system";
 export * from "./piercing.system";

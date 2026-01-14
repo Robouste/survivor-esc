@@ -5,6 +5,7 @@ import {
   ChaseHeroSystem,
   DamageSystem,
   HealthSystem,
+  HeroLevelingSystem,
   HeroMovementSystem,
   LineProjectileSystem,
   PiercingSystem,
@@ -27,6 +28,7 @@ export class GameScene extends Scene {
     this._enemyFactory.start();
 
     this.world.add(new HeroMovementSystem(this.world, engine.input.keyboard));
+    this.world.add(new HeroLevelingSystem(this.world, engine));
     this.world.add(new ChaseHeroSystem(this.world, this._hero));
     this.world.add(new WeaponSystem(this.world, this));
     this.world.add(new LineProjectileSystem(this.world));
