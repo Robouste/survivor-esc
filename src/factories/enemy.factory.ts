@@ -1,9 +1,7 @@
-import { XpDropComponent } from "@components";
 import { SkullBeetle } from "@entities";
 import { GameScene } from "@scenes";
 import { Helpers } from "@utils";
 import { Timer } from "excalibur";
-import { XpDrop } from "../actors/xp-drop.actor";
 
 export class EnemyFactory {
   private _timer: Timer;
@@ -35,11 +33,5 @@ export class EnemyFactory {
     const pos = Helpers.getRandomSpawnPosition(this._gameScene.engine);
     const enemy = new SkullBeetle(pos);
     this._gameScene.add(enemy);
-
-    enemy.on("kill", () => {
-      this._gameScene.add(
-        new XpDrop(enemy.pos.clone(), enemy.get(XpDropComponent)!.amount)
-      );
-    });
   }
 }

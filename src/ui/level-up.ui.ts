@@ -34,7 +34,7 @@ export class LevelUpUi extends ScreenElement {
     const left = -(this.width / 2) + optionWidth / 2;
 
     const option1 = new OptionSelect({
-      name: "Kunai",
+      name: "Kunai 1",
       text: "Increase damage",
       image: Kunai.animation,
       pos: vec(left + spacing, y),
@@ -43,7 +43,7 @@ export class LevelUpUi extends ScreenElement {
     });
 
     const option2 = new OptionSelect({
-      name: "Kunai",
+      name: "Kunai 2",
       text: "Increase damage",
       image: Kunai.animation,
       pos: vec(option1.pos.x + optionWidth + spacing, y),
@@ -52,7 +52,7 @@ export class LevelUpUi extends ScreenElement {
     });
 
     const option3 = new OptionSelect({
-      name: "Kunai",
+      name: "Kunai 3",
       text: "Increase damage",
       image: Kunai.animation,
       pos: vec(option2.pos.x + optionWidth + spacing, y),

@@ -8,6 +8,7 @@ import {
   LineProjectileSystem,
   PiercingSystem,
   WeaponSystem,
+  XpDropSystem,
 } from "@systems";
 import { LevelUpUi } from "@ui";
 import { Engine, Scene, vec } from "excalibur";
@@ -33,6 +34,7 @@ export class GameScene extends Scene {
     this.world.add(new DamageSystem(this.world));
     this.world.add(new HealthSystem(this.world));
     this.world.add(new AutocleanupSystem(this.world, engine));
+    this.world.add(new XpDropSystem(this.world, this));
 
     this.camera.strategy.lockToActor(this._hero);
 

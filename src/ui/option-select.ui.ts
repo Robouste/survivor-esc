@@ -1,10 +1,13 @@
 import { FontName, Resources } from "@utils";
 import {
   Actor,
+  ActorEvents,
   Animation,
   Engine,
+  EventEmitter,
   Font,
   FontUnit,
+  GameEvent,
   Label,
   NineSlice,
   NineSliceStretch,
@@ -14,6 +17,16 @@ import {
   vec,
   Vector,
 } from "excalibur";
+
+export type OptionSelectEvent = {
+  selected: GameEvent<OptionSelect>;
+};
+
+export class OptionSelectedEvent extends GameEvent<OptionSelect> {
+  constructor(public target: OptionSelect) {
+    super();
+  }
+}
 
 export type OptionSelectOptions = Readonly<{
   pos: Vector;
@@ -25,6 +38,9 @@ export type OptionSelectOptions = Readonly<{
 }>;
 
 export class OptionSelect extends ScreenElement {
+  public events = new EventEmitter<ActorEvents & OptionSelectEvent>();
+  public name: string;
+
   private _name: Label;
   private _text: Label;
   private _image: Actor;
@@ -37,6 +53,8 @@ export class OptionSelect extends ScreenElement {
       height: options.height,
       anchor: vec(0.5, 0.5),
     });
+
+    this.name = options.name;
 
     this._box = new NineSlice({
       width: options.width,
@@ -104,5 +122,9 @@ export class OptionSelect extends ScreenElement {
     this.on("pointerleave", () => {
       this.scale = vec(1, 1);
     });
+
+    this.on("pointerdown", () =>
+      this.events.emit("selected", new OptionSelectedEvent(this))
+    );
   }
 }

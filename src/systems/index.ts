@@ -7,3 +7,4 @@ export * from './line-projectile.system';
 export * from './piercing.system';
 export * from './targeting.system';
 export * from './weapon.system';
+export * from './xp-drop.system';
