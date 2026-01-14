@@ -1,4 +1,5 @@
 export * from "./acquire-closest-enemy.component";
+export * from "./attracted.component";
 export * from "./auto-cleanup.component";
 export * from "./chase-hero.component";
 export * from "./damage.component";

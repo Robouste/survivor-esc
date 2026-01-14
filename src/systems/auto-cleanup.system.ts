@@ -34,7 +34,6 @@ export class AutocleanupSystem extends System {
         pos.y < viewport.top - EngineConfig.maxDrawLength ||
         pos.y > viewport.bottom + EngineConfig.maxDrawLength
       ) {
-        console.log("killing entity");
         entity.kill();
       }
     }

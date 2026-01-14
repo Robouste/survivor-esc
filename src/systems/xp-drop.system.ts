@@ -1,6 +1,6 @@
 import { XpDropComponent } from "@components";
 import { Actor, Query, Scene, System, SystemType, World } from "excalibur";
-import { XpDrop } from "../actors/xp-drop.actor";
+import { XpDrop } from "../entities/xp-drop.entity";
 
 export class XpDropSystem extends System {
   public systemType = SystemType.Update;

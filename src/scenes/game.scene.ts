@@ -1,5 +1,6 @@
 import { Hero } from "@entities";
 import {
+  AttractedSystem,
   AutocleanupSystem,
   ChaseHeroSystem,
   DamageSystem,
@@ -10,7 +11,6 @@ import {
   WeaponSystem,
   XpDropSystem,
 } from "@systems";
-import { LevelUpUi } from "@ui";
 import { Engine, Scene, vec } from "excalibur";
 import { Background } from "../actors/background.actor";
 import { EnemyFactory } from "../factories/enemy.factory";
@@ -35,13 +35,14 @@ export class GameScene extends Scene {
     this.world.add(new HealthSystem(this.world));
     this.world.add(new AutocleanupSystem(this.world, engine));
     this.world.add(new XpDropSystem(this.world, this));
+    this.world.add(new AttractedSystem(this.world));
 
     this.camera.strategy.lockToActor(this._hero);
 
     this.add(new Background(64));
 
-    const test = new LevelUpUi(this.camera);
-    this.add(test);
+    // const test = new LevelUpUi(this.camera);
+    // this.add(test);
 
     // const temp = new Timer({
     //   interval: 2000,

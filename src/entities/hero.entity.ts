@@ -59,26 +59,13 @@ export class Hero extends Actor {
     this.addComponent(new HeroComponent());
     this.addComponent(new WeaponsComponent([{ type: WeaponType.Knife }]));
 
-    this.collider.set(Shape.Box(48, 48));
+    this.collider.set(Shape.Box(18, 24, this.anchor, vec(0, 16)));
     this._setupAnimations();
   }
 
   public onPreUpdate(engine: Engine, elapsed: number): void {
     super.onPreUpdate(engine, elapsed);
-
-    const isMoving = this.vel.magnitude > 1;
-
-    if (isMoving) {
-      if (Math.abs(this.vel.x) > Math.abs(this.vel.y)) {
-        this._lastDirection = this.vel.x > 0 ? "right" : "left";
-      } else {
-        this._lastDirection = this.vel.y > 0 ? "down" : "up";
-      }
-
-      this.graphics.use(movingMap[this._lastDirection]);
-    } else {
-      this.graphics.use(idleMap[this._lastDirection]);
-    }
+    this._updateAnimation();
   }
 
   private _setupAnimations(): void {
@@ -163,5 +150,21 @@ export class Hero extends Actor {
     this.graphics.add(HeroAnimation.MovingUp, movingUp);
 
     this.graphics.use(HeroAnimation.IdleDown);
+  }
+
+  private _updateAnimation(): void {
+    const isMoving = this.vel.magnitude > 1;
+
+    if (isMoving) {
+      if (Math.abs(this.vel.x) > Math.abs(this.vel.y)) {
+        this._lastDirection = this.vel.x > 0 ? "right" : "left";
+      } else {
+        this._lastDirection = this.vel.y > 0 ? "down" : "up";
+      }
+
+      this.graphics.use(movingMap[this._lastDirection]);
+    } else {
+      this.graphics.use(idleMap[this._lastDirection]);
+    }
   }
 }

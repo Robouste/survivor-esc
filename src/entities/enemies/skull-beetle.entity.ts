@@ -10,7 +10,9 @@ import {
   Animation,
   Engine,
   range,
+  Shape,
   SpriteSheet,
+  vec,
   Vector,
 } from "excalibur";
 
@@ -29,7 +31,7 @@ export class SkullBeetle extends Actor {
     this.addComponent(new EnemyComponent());
     this.addComponent(new ChaseHeroComponent(150));
     this.addComponent(new XpDropComponent(10));
-    this.addComponent(new HealthComponent(10));
+    this.addComponent(new HealthComponent(8));
 
     const spritesheet = SpriteSheet.fromImageSource({
       image: Resources.SpriteSheets.SkullBeetle,
@@ -49,6 +51,8 @@ export class SkullBeetle extends Actor {
 
     this.graphics.add("moving", this._animation);
     this.graphics.use("moving");
+
+    this.collider.set(Shape.Box(64, 32, this.anchor, vec(0, 12)));
   }
 
   public onPreUpdate(engine: Engine, elapsed: number): void {

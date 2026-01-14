@@ -1,4 +1,4 @@
-import { HeroComponent } from "@components";
+import { AttractedComponent, HeroComponent } from "@components";
 import { Resources } from "@utils";
 import {
   Actor,
@@ -21,7 +21,9 @@ export class XpDrop extends Actor {
     });
   }
 
-  public onInitialize(engine: Engine): void {}
+  public onInitialize(_engine: Engine): void {
+    this.addComponent(new AttractedComponent());
+  }
 
   public onCollisionStart(
     self: Collider,
