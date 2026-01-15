@@ -9,6 +9,7 @@ import {
 export class PausableComponent extends Component {
   public isPaused = false;
   public savedVelocity = Vector.Zero;
+  public currentAnimation: Animation | null = null;
 
   public pause(): void {
     if (this.isPaused) {
@@ -22,7 +23,8 @@ export class PausableComponent extends Component {
       motion.vel = Vector.Zero;
     }
 
-    this._getAnimation()?.pause();
+    this.currentAnimation = this._getAnimation();
+    this.currentAnimation?.pause();
 
     this.isPaused = true;
   }
@@ -38,7 +40,7 @@ export class PausableComponent extends Component {
       motion.vel = this.savedVelocity.clone();
     }
 
-    this._getAnimation()?.play();
+    this.currentAnimation?.play();
 
     this.isPaused = false;
   }

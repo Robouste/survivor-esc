@@ -74,6 +74,7 @@ export class GameScene extends Scene {
 
     this._levelUpUi = new LevelUpUi({
       camera: this.camera,
+      engine: this.engine,
       rewards,
       onSelect: (reward) => {
         this._rewardService.applyReward(context, reward);

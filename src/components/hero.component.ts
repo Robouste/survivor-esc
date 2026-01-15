@@ -1,7 +1,7 @@
 import { Component } from "excalibur";
 
 export class HeroComponent extends Component {
-  private static readonly BASE_XP = 100;
+  private static readonly BASE_XP = 50;
   private static readonly GROWTH_RATE = 1.5;
 
   public xp: number = 0;

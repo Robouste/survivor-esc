@@ -1,24 +1,26 @@
 import { Reward } from "@rewards";
-import { Camera, Engine, ScreenElement, vec, Vector } from "excalibur";
+import { Actor, Camera, Engine, vec, Vector } from "excalibur";
 import { DialogBox } from "./dialog-box.ui";
 import { OptionSelect } from "./option-select.ui";
 
 export interface LevelUpUiOptions {
   camera: Camera;
+  engine: Engine;
   rewards: Reward[];
   onSelect: (reward: Reward) => void;
 }
 
-export class LevelUpUi extends ScreenElement {
+export class LevelUpUi extends Actor {
   private _rewards: Reward[];
   private _onSelect: (reward: Reward) => void;
 
   constructor(options: LevelUpUiOptions) {
-    const viewport = options.camera.viewport;
-    const width = Math.max(800, viewport.width * 0.8);
+    const camera = options.camera;
+    const engine = options.engine;
+    const width = Math.max(800, engine.drawWidth * 0.8);
 
     super({
-      pos: vec(viewport.width / 2, viewport.height / 2),
+      pos: vec(camera.pos.x, camera.pos.y),
       anchor: Vector.Half,
       width,
       height: width / 2,
@@ -40,7 +42,8 @@ export class LevelUpUi extends ScreenElement {
 
     const rewardCount = this._rewards.length;
     const spacing = 32;
-    const optionWidth = (this.width - spacing * (rewardCount + 1)) / rewardCount;
+    const optionWidth =
+      (this.width - spacing * (rewardCount + 1)) / rewardCount;
     const optionHeight = this.height * 0.75;
     const y = -this.height / 4 - spacing + optionHeight / 2;
     const totalWidth = rewardCount * optionWidth + (rewardCount - 1) * spacing;
@@ -58,7 +61,7 @@ export class LevelUpUi extends ScreenElement {
       });
 
       option.events.on("selected", () => this._onSelect(reward));
-      dialog.addChild(option);
+      this.addChild(option);
     }
   }
 }

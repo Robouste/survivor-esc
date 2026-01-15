@@ -31,7 +31,7 @@ export class SkullBeetle extends Actor {
   public onInitialize(_engine: Engine): void {
     this.addComponent(new EnemyComponent())
       .addComponent(new ChaseHeroComponent(150))
-      .addComponent(new XpDropComponent(100))
+      .addComponent(new XpDropComponent(10))
       .addComponent(new HealthComponent(8))
       .addComponent(new PausableComponent());
 

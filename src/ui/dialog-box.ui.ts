@@ -1,12 +1,12 @@
 import { FontName, Resources } from "@utils";
 import {
+  Actor,
   Engine,
   Font,
   FontUnit,
   Label,
   NineSlice,
   NineSliceStretch,
-  ScreenElement,
   TextAlign,
   vec,
 } from "excalibur";
@@ -17,7 +17,7 @@ export type DialogBoxOptions = Readonly<{
   text: string;
 }>;
 
-export class DialogBox extends ScreenElement {
+export class DialogBox extends Actor {
   private readonly _label: Label;
   private _box: NineSlice;
 

@@ -11,7 +11,6 @@ import {
   Label,
   NineSlice,
   NineSliceStretch,
-  ScreenElement,
   Sprite,
   TextAlign,
   vec,
@@ -37,7 +36,7 @@ export type OptionSelectOptions = Readonly<{
   text: string;
 }>;
 
-export class OptionSelect extends ScreenElement {
+export class OptionSelect extends Actor {
   public events = new EventEmitter<ActorEvents & OptionSelectEvent>();
   public name: string;
 
