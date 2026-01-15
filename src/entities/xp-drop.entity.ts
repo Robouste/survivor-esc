@@ -3,12 +3,12 @@ import {
   HeroComponent,
   PausableComponent,
 } from "@components";
+import { AnimationFactory, AnimationName } from "@factories";
 import { Resources } from "@utils";
 import {
   Actor,
   Collider,
   CollisionContact,
-  Color,
   Engine,
   Side,
   vec,
@@ -19,9 +19,8 @@ export class XpDrop extends Actor {
   constructor(pos: Vector, public amount: number) {
     super({
       pos,
-      radius: 8,
-      color: Color.Yellow,
-      anchor: vec(0.5, 0.5),
+      radius: 6,
+      // anchor: vec(0.5, 0.5),
     });
   }
 
@@ -29,6 +28,12 @@ export class XpDrop extends Actor {
     this.addComponent(new AttractedComponent()).addComponent(
       new PausableComponent()
     );
+
+    const animation = AnimationFactory.get(AnimationName.XpDrop);
+    animation.scale = vec(0.5, 0.5);
+
+    this.graphics.add("idle", animation);
+    this.graphics.use("idle");
   }
 
   public onCollisionStart(

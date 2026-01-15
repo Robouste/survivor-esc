@@ -1,7 +1,7 @@
 import { LineProjectileComponent } from "@components";
 import { AnimationFactory, AnimationName } from "@factories";
 import { HasAnimation } from "@interfaces";
-import { getBaseWeaponComponents, WeaponConfig } from "@utils";
+import { Config, getBaseWeaponComponents, WeaponConfig } from "@utils";
 import { Actor, Engine, Vector } from "excalibur";
 
 export class Fireball extends Actor implements HasAnimation {
@@ -16,7 +16,7 @@ export class Fireball extends Actor implements HasAnimation {
       pos,
       width: 72,
       height: 32,
-      scale: Vector.One,
+      scale: Vector.Half,
     });
   }
 
@@ -26,7 +26,12 @@ export class Fireball extends Actor implements HasAnimation {
     this.graphics.add("flying", animation);
     this.graphics.use("flying");
 
-    this.addComponent(new LineProjectileComponent(300, this._direction));
+    this.addComponent(
+      new LineProjectileComponent(
+        Config.Hero.ProjectileSpeed * 0.8,
+        this._direction
+      )
+    );
 
     for (const component of getBaseWeaponComponents(this._config)) {
       this.addComponent(component);

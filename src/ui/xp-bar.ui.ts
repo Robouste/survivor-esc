@@ -2,7 +2,6 @@ import { HeroComponent } from "@components";
 import { Hero } from "@entities";
 import { Resources } from "@utils";
 import {
-  Actor,
   Engine,
   NineSlice,
   NineSliceStretch,
@@ -11,49 +10,26 @@ import {
 } from "excalibur";
 
 export class XpBar extends ScreenElement {
-  private _topMargin = 15;
-  private _leftMargin = 24;
-  private _bottomMargin = 18;
-  private _rightMargin = 24;
-  private _outerBar: NineSlice;
-  private _innerBar: NineSlice;
-  private _innerBarActor: Actor;
+  private _xpBar: NineSlice;
 
   private get _heroComponent(): HeroComponent {
     return this._hero.get(HeroComponent);
   }
 
   constructor(engine: Engine, private _hero: Hero) {
+    const gutters = 32;
+
     super({
-      pos: vec(32, 32),
+      pos: vec(gutters, 16),
       anchor: vec(0, 0),
-      width: engine.drawWidth - 64,
-      height: 34,
+      width: engine.drawWidth - gutters * 2,
+      height: 6,
       z: 1000,
     });
 
-    this._outerBar = new NineSlice({
+    this._xpBar = new NineSlice({
       width: this.width,
       height: this.height,
-      source: Resources.Ui.XpBarOuter,
-      sourceConfig: {
-        width: 144,
-        height: 34,
-        topMargin: this._topMargin,
-        leftMargin: this._leftMargin,
-        bottomMargin: this._bottomMargin,
-        rightMargin: this._rightMargin,
-      },
-      destinationConfig: {
-        drawCenter: true,
-        horizontalStretch: NineSliceStretch.TileFit,
-        verticalStretch: NineSliceStretch.TileFit,
-      },
-    });
-
-    this._innerBar = new NineSlice({
-      width: this.width - this._leftMargin - this._rightMargin,
-      height: this.height - this._topMargin - this._bottomMargin,
       source: Resources.Ui.XpBarInner,
       sourceConfig: {
         width: 96,
@@ -69,23 +45,11 @@ export class XpBar extends ScreenElement {
         verticalStretch: NineSliceStretch.TileFit,
       },
     });
-
-    this._innerBarActor = new Actor({
-      pos: vec(this._leftMargin, this._topMargin),
-      width: 0,
-      height: this._innerBar.height,
-      anchor: vec(0, 0),
-    });
   }
 
   public onInitialize(engine: Engine): void {
-    this.graphics.add("outer", this._outerBar);
-    this.graphics.use("outer");
-
-    this._innerBarActor.graphics.add("inner", this._innerBar);
-    this._innerBarActor.graphics.use("inner");
-
-    this.addChild(this._innerBarActor);
+    this.graphics.add("xp-bar", this._xpBar);
+    this.graphics.use("xp-bar");
   }
 
   public onPreUpdate(engine: Engine, elapsed: number): void {
@@ -93,9 +57,8 @@ export class XpBar extends ScreenElement {
     const requiredXp = this._heroComponent.xpToNextLevel;
     const xpRatio = currentXp / requiredXp;
 
-    const innerBarWidth =
-      (this.width - this._leftMargin - this._rightMargin) * xpRatio;
+    const newWidth = this.width * xpRatio;
 
-    this._innerBar.setTargetWidth(innerBarWidth);
+    this._xpBar.setTargetWidth(newWidth);
   }
 }

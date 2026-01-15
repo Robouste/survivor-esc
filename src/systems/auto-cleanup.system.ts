@@ -1,5 +1,4 @@
 import { AutoCleanupComponent } from "@components";
-import { EngineConfig } from "@utils";
 import {
   Engine,
   Query,
@@ -8,6 +7,7 @@ import {
   TransformComponent,
   World,
 } from "excalibur";
+import { Config } from "../utils/configs";
 
 export class AutocleanupSystem extends System {
   public systemType = SystemType.Update;
@@ -29,10 +29,10 @@ export class AutocleanupSystem extends System {
       const pos = entity.get(TransformComponent).pos;
 
       if (
-        pos.x < viewport.left - EngineConfig.maxDrawLength ||
-        pos.x > viewport.right + EngineConfig.maxDrawLength ||
-        pos.y < viewport.top - EngineConfig.maxDrawLength ||
-        pos.y > viewport.bottom + EngineConfig.maxDrawLength
+        pos.x < viewport.left - Config.Engine.MaxDrawLength ||
+        pos.x > viewport.right + Config.Engine.MaxDrawLength ||
+        pos.y < viewport.top - Config.Engine.MaxDrawLength ||
+        pos.y > viewport.bottom + Config.Engine.MaxDrawLength
       ) {
         entity.kill();
       }

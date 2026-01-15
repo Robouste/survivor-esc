@@ -5,7 +5,7 @@ import {
   PausableComponent,
   XpDropComponent,
 } from "@components";
-import { Resources } from "@utils";
+import { Config, Resources } from "@utils";
 import {
   Actor,
   Animation,
@@ -25,12 +25,13 @@ export class SkullBeetle extends Actor {
       pos,
       width: 96,
       height: 48,
+      scale: vec(0.5, 0.5),
     });
   }
 
   public onInitialize(_engine: Engine): void {
     this.addComponent(new EnemyComponent())
-      .addComponent(new ChaseHeroComponent(150))
+      .addComponent(new ChaseHeroComponent(Config.Enemy.BaseSpeed))
       .addComponent(new XpDropComponent(10))
       .addComponent(new HealthComponent(8))
       .addComponent(new PausableComponent());
@@ -54,7 +55,7 @@ export class SkullBeetle extends Actor {
     this.graphics.add("moving", this._animation);
     this.graphics.use("moving");
 
-    this.collider.set(Shape.Box(64, 32, this.anchor, vec(0, 12)));
+    this.collider.set(Shape.Box(64, 48, this.anchor));
   }
 
   public onPreUpdate(engine: Engine, elapsed: number): void {

@@ -1,5 +1,5 @@
 import { AttractedComponent, HeroComponent } from "@components";
-import { GameState, VariablesConfig } from "@utils";
+import { Config, GameState } from "@utils";
 import {
   MotionComponent,
   Query,
@@ -52,7 +52,7 @@ export class AttractedSystem extends System {
         attracted.get(MotionComponent).vel = heroPos
           .sub(attractedPos)
           .normalize()
-          .scale(VariablesConfig.xpDropSpeed);
+          .scale(Config.XpDrop.Speed);
       } else {
         attracted.get(MotionComponent).vel = Vector.Zero;
       }

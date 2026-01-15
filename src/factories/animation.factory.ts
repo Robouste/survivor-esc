@@ -11,6 +11,7 @@ export enum AnimationName {
   Kunai = "kunai",
   Knife = "knife",
   Fireball = "fireball",
+  XpDrop = "xp-drop",
 }
 
 interface AnimationConfig {
@@ -68,6 +69,22 @@ const animationConfigs: Record<AnimationName, AnimationConfig> = {
     animationOptions: {
       spriteSheetIndex: range(0, 9),
       durationPerFrame: 50,
+      strategy: AnimationStrategy.Loop,
+    },
+  },
+  [AnimationName.XpDrop]: {
+    spritesheetOptions: {
+      image: Resources.SpriteSheets.XpDrop,
+      grid: {
+        rows: 1,
+        columns: 16,
+        spriteWidth: 48,
+        spriteHeight: 48,
+      },
+    },
+    animationOptions: {
+      spriteSheetIndex: range(0, 15),
+      durationPerFrame: 100,
       strategy: AnimationStrategy.Loop,
     },
   },

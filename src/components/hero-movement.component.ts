@@ -1,3 +1,4 @@
+import { Config } from "@utils";
 import { Component } from "excalibur";
 
 export class HeroMovementComponent extends Component {
@@ -5,7 +6,7 @@ export class HeroMovementComponent extends Component {
     return this._speed;
   }
 
-  constructor(private _speed = 200) {
+  constructor(private _speed: number = Config.Hero.Speed) {
     super();
   }
 

@@ -13,6 +13,7 @@ export const Resources = {
     Knife: new ImageSource("./spritesheets/weapons/knife.png"),
     Fireball: new ImageSource("./spritesheets/weapons/fireball.png"),
     SkullBeetle: new ImageSource("./spritesheets/enemies/skull-beetle.png"),
+    XpDrop: new ImageSource("./spritesheets/xp-drop.png"),
   },
   Ui: {
     DialogBox: new ImageSource("./ui/dialog-box.png"),

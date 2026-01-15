@@ -6,9 +6,9 @@ import { loader } from "./utils/resources";
 // Goal is to keep main.ts small and just enough to configure the engine
 
 const game = new Engine({
-  width: 800, // Logical width and height in game pixels
-  height: 600,
-  displayMode: DisplayMode.FillScreen,
+  width: 1280, // Logical width and height in game pixels
+  height: 720,
+  displayMode: DisplayMode.FitScreen,
   pixelArt: true,
   pixelRatio: 1,
   scenes: {

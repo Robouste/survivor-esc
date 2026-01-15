@@ -51,7 +51,7 @@ export class Hero extends Actor {
       width: 128,
       height: 128,
       anchor: vec(0.5, 0.5),
-      scale: vec(3, 3),
+      scale: vec(1.75, 1.75),
     });
   }
 
@@ -61,7 +61,7 @@ export class Hero extends Actor {
       .addComponent(new WeaponsComponent([{ type: WeaponType.Knife }]))
       .addComponent(new PausableComponent());
 
-    this.collider.set(Shape.Box(18, 24, this.anchor, vec(0, 16)));
+    this.collider.set(Shape.Box(18, 24, this.anchor, vec(0, 12)));
     this._setupAnimations();
   }
 
