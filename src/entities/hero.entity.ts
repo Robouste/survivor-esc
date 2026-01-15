@@ -4,7 +4,7 @@ import {
   PausableComponent,
   WeaponsComponent,
 } from "@components";
-import { Resources, WeaponType } from "@utils";
+import { Config, Resources, WeaponType } from "@utils";
 import {
   Actor,
   Animation,
@@ -52,6 +52,7 @@ export class Hero extends Actor {
       height: 128,
       anchor: vec(0.5, 0.5),
       scale: vec(1.75, 1.75),
+      z: Config.ZIndex.Hero,
     });
   }
 

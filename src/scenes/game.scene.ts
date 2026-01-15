@@ -15,9 +15,8 @@ import {
   XpDropSystem,
 } from "@systems";
 import { LevelUpUi, XpBar } from "@ui";
-import { GameState } from "@utils";
+import { GameState, Resources } from "@utils";
 import { Engine, Entity, Scene, vec } from "excalibur";
-import { Background } from "../actors/background.actor";
 import { EnemyFactory } from "../factories/enemy.factory";
 
 export class GameScene extends Scene {
@@ -59,7 +58,11 @@ export class GameScene extends Scene {
 
     this.camera.strategy.lockToActor(this._hero);
 
-    this.add(new Background(64));
+    // this.add(new Background(64));
+
+    const tiledMap = Resources.Tiles.GrassLand;
+
+    tiledMap.addToScene(this);
   }
 
   private showLevelUpUi(hero: Entity): void {

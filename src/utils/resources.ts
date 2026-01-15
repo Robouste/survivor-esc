@@ -1,4 +1,6 @@
+import { TiledResource } from "@excaliburjs/plugin-tiled";
 import { FontSource, ImageSource, Loader, Sound } from "excalibur";
+import { Config } from "./configs";
 
 export enum FontName {
   Rpg = "rpg",
@@ -26,6 +28,11 @@ export const Resources = {
   },
   Fonts: {
     Rpg: new FontSource("./fonts/rpg.ttf", FontName.Rpg),
+  },
+  Tiles: {
+    GrassLand: new TiledResource("./tiles/grass-land/grass-land.tmx", {
+      startZIndex: Config.ZIndex.TiledMap,
+    }),
   },
 } as const;
 
