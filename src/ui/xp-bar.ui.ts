@@ -29,6 +29,7 @@ export class XpBar extends ScreenElement {
       anchor: vec(0, 0),
       width: engine.drawWidth - 64,
       height: 34,
+      z: 1000,
     });
 
     this._outerBar = new NineSlice({
