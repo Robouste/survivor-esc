@@ -78,28 +78,30 @@ export class OptionSelect extends Actor {
       text: options.name,
       pos: vec(0, -this.height / 2 + 48),
       font: new Font({
-        size: 18,
+        size: 20,
         family: FontName.Rpg,
         unit: FontUnit.Px,
         textAlign: TextAlign.Center,
       }),
     });
 
+    const targetImageSize = 96;
+    const imageScale =
+      targetImageSize / Math.max(options.image.width, options.image.height);
+
     this._image = new Actor({
       pos: vec(0, 0),
-      width: options.image.width,
-      height: options.image.height,
       anchor: vec(0.5, 0.5),
-      scale: vec(4, 4),
+      scale: vec(imageScale, imageScale),
     });
 
     this._image.graphics.use(options.image);
 
     this._text = new Label({
       text: options.text,
-      pos: vec(0, this._image.pos.y + this._image.height + 32),
+      pos: vec(0, this._image.pos.y + targetImageSize + 16),
       font: new Font({
-        size: 16,
+        size: 18,
         family: FontName.Rpg,
         unit: FontUnit.Px,
         textAlign: TextAlign.Center,

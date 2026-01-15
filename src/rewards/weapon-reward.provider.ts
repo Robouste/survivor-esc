@@ -2,7 +2,12 @@ import { WeaponsComponent } from "@components";
 import { AnimationFactory, AnimationName } from "@factories";
 import { getWeaponConfig, weaponDefinitions, WeaponType } from "@utils";
 import { Animation } from "excalibur";
-import { Reward, RewardContext, RewardProvider, RewardType } from "./reward.types";
+import {
+  Reward,
+  RewardContext,
+  RewardProvider,
+  RewardType,
+} from "./reward.types";
 
 export interface WeaponReward extends Reward {
   weaponType: WeaponType;
@@ -22,7 +27,10 @@ const weaponAnimationMap: Record<WeaponType, AnimationName> = {
 };
 
 export class WeaponRewardProvider implements RewardProvider {
-  public readonly supportedTypes = [RewardType.NewWeapon, RewardType.WeaponUpgrade];
+  public readonly supportedTypes = [
+    RewardType.NewWeapon,
+    RewardType.WeaponUpgrade,
+  ];
 
   public getAvailableRewards(context: RewardContext): Reward[] {
     const weaponsComp = context.hero.get(WeaponsComponent);
@@ -62,11 +70,15 @@ export class WeaponRewardProvider implements RewardProvider {
       level: 1,
       name: displayName,
       description: this.getNewWeaponDescription(baseConfig),
-      getAnimation: (): Animation => AnimationFactory.get(weaponAnimationMap[weaponType]),
+      getAnimation: (): Animation =>
+        AnimationFactory.get(weaponAnimationMap[weaponType]),
     };
   }
 
-  private createUpgradeReward(weaponType: WeaponType, level: number): WeaponReward {
+  private createUpgradeReward(
+    weaponType: WeaponType,
+    level: number
+  ): WeaponReward {
     const displayName = weaponDisplayNames[weaponType];
 
     return {
@@ -76,15 +88,23 @@ export class WeaponRewardProvider implements RewardProvider {
       level,
       name: `${displayName} Lv.${level}`,
       description: this.getUpgradeDescription(weaponType, level),
-      getAnimation: (): Animation => AnimationFactory.get(weaponAnimationMap[weaponType]),
+      getAnimation: (): Animation =>
+        AnimationFactory.get(weaponAnimationMap[weaponType]),
     };
   }
 
-  private getNewWeaponDescription(config: { damage: number; piercing: number }): string {
+  private getNewWeaponDescription(config: {
+    damage: number;
+    piercing: number;
+  }): string {
     const parts: string[] = [];
     parts.push(`${config.damage} damage`);
     if (config.piercing > 1 || config.piercing === Infinity) {
-      parts.push(config.piercing === Infinity ? "infinite pierce" : `${config.piercing} pierce`);
+      parts.push(
+        config.piercing === Infinity
+          ? "infinite pierce"
+          : `${config.piercing} pierce`
+      );
     }
     return parts.join(", ");
   }
@@ -95,9 +115,12 @@ export class WeaponRewardProvider implements RewardProvider {
 
     const parts: string[] = [];
 
-    const projectileDiff = newConfig.projectileCount - currentConfig.projectileCount;
+    const projectileDiff =
+      newConfig.projectileCount - currentConfig.projectileCount;
     if (projectileDiff > 0) {
-      parts.push(`+${projectileDiff} projectile${projectileDiff > 1 ? "s" : ""}`);
+      parts.push(
+        `+${projectileDiff} projectile${projectileDiff > 1 ? "s" : ""}`
+      );
     }
 
     const damageDiff = newConfig.damage - currentConfig.damage;
@@ -107,7 +130,9 @@ export class WeaponRewardProvider implements RewardProvider {
 
     const fireRateDiff = currentConfig.fireRate - newConfig.fireRate; // lower is faster
     if (fireRateDiff > 0) {
-      const percentFaster = Math.round((fireRateDiff / currentConfig.fireRate) * 100);
+      const percentFaster = Math.round(
+        (fireRateDiff / currentConfig.fireRate) * 100
+      );
       parts.push(`+${percentFaster}% attack speed`);
     }
 
@@ -123,8 +148,12 @@ export class WeaponRewardProvider implements RewardProvider {
     }
 
     if (newConfig.spreadAngle !== currentConfig.spreadAngle) {
-      const currentDeg = currentConfig.spreadAngle ? Math.round((currentConfig.spreadAngle * 180) / Math.PI) : 0;
-      const newDeg = newConfig.spreadAngle ? Math.round((newConfig.spreadAngle * 180) / Math.PI) : 0;
+      const currentDeg = currentConfig.spreadAngle
+        ? Math.round((currentConfig.spreadAngle * 180) / Math.PI)
+        : 0;
+      const newDeg = newConfig.spreadAngle
+        ? Math.round((newConfig.spreadAngle * 180) / Math.PI)
+        : 0;
       const diff = newDeg - currentDeg;
       if (diff > 0) {
         parts.push(`+${diff}° spread`);
@@ -140,6 +169,6 @@ export class WeaponRewardProvider implements RewardProvider {
       }
     }
 
-    return parts.join(", ") || "Power up!";
+    return parts.join("\n") || "Power up!";
   }
 }
