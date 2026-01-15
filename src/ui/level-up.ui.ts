@@ -54,7 +54,7 @@ export class LevelUpUi extends Actor {
       const option = new OptionSelect({
         name: reward.name,
         text: reward.description,
-        image: reward.getAnimation(),
+        image: reward.getAnimation().clone(),
         pos: vec(startX + i * (optionWidth + spacing), y),
         width: optionWidth,
         height: optionHeight,

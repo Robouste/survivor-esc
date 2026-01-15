@@ -23,25 +23,34 @@ This is a survivor-style game built with **Excalibur.js** (v0.32.0) using an **E
 **Components** (`src/components/`) - Data containers attached to entities:
 
 - `HeroMovementComponent`, `HeroComponent` - Hero-specific data
-- `ChaseHeroComponent` - Enemy AI behavior data
+- `ChaseHeroComponent`, `EnemyComponent` - Enemy AI behavior data
 - `DamageComponent`, `HealthComponent` - Combat stats
 - `LineProjectileComponent`, `PiercingComponent` - Projectile behavior
 - `TargetComponent`, `AcquireClosestEnemyComponent` - Targeting system data
 - `WeaponsComponent` - Holds multiple weapons with their state and levels
-- `XpDropComponent`, `AutoCleanupComponent` - Misc entity lifecycle
+- `XpDropComponent`, `AttractedComponent`, `AutoCleanupComponent` - XP and entity lifecycle
+- `PausableComponent` - Marks entities affected by pause system
 
 **Systems** (`src/systems/`) - Logic that processes entities with matching components:
 
-- Systems query the world for entities with specific component combinations
-- Use `world.query([ComponentA, ComponentB])` pattern
+- `HeroMovementSystem`, `HeroLevelingSystem` - Hero controls and progression
+- `ChaseHeroSystem` - Enemy AI movement
+- `WeaponSystem`, `LineProjectileSystem`, `PiercingSystem` - Weapon firing and projectile behavior
+- `TargetingSystem` - Acquires targets for weapons
+- `DamageSystem`, `HealthSystem` - Combat damage and death handling
+- `XpDropSystem`, `AttractedSystem` - XP drops and pickup attraction
+- `PauseSystem` - Game pause functionality
+- `AutoCleanupSystem` - Removes off-screen entities
+- Systems query the world using `world.query([ComponentA, ComponentB])` pattern
 - Subscribe to entity events like `entityAdded$` for collision setup
 - Systems are registered in `GameScene.onInitialize()`
 
 **Entities** (`src/entities/`) - Actors with attached components:
 
 - `Hero` - Player character with movement, animations
-- `Enemy`, `SkullBeetle` - Enemy types in `enemies/` subfolder
+- `SkullBeetle` - Enemy type in `enemies/` subfolder
 - `Kunai`, `Knife`, `Fireball` - Weapon projectiles in `weapons/` subfolder
+- `XpDrop` - Experience orbs dropped by enemies
 
 ### Path Aliases
 
@@ -49,16 +58,23 @@ Configured in `tsconfig.json` and resolved by `vite-tsconfig-paths`:
 
 - `@components` -> `src/components/index.ts`
 - `@entities` -> `src/entities/index.ts`
+- `@factories` -> `src/factories/index.ts`
+- `@interfaces` -> `src/interfaces/index.ts`
+- `@rewards` -> `src/rewards/index.ts`
 - `@scenes` -> `src/scenes/index.ts`
 - `@systems` -> `src/systems/index.ts`
+- `@ui` -> `src/ui/index.ts`
 - `@utils` -> `src/utils/index.ts`
 
 ### Key Patterns
 
-- **Factories**: `EnemyFactory` handles spawning enemies on timers
-- **Resources**: All assets (sprites, sounds) loaded via `src/utils/resources.ts` using Excalibur's `Loader`
+- **Factories**: `EnemyFactory` spawns enemies on timers, `AnimationFactory` creates sprite animations
+- **Resources**: All assets (sprites, sounds, fonts, UI) loaded via `src/utils/resources.ts` using Excalibur's `Loader`
 - **Scenes**: `MainMenuScene` and `GameScene` - systems are added to scene's `world`
 - **Weapon Config**: `src/utils/weapons.config.ts` defines weapon types, firing patterns, base stats, and level upgrades using a data-driven approach with `WeaponDefinition` records
+- **UI**: `src/ui/` contains UI components like `LevelUpUI` for level-up selection screen
+- **Rewards**: `src/rewards/` handles reward generation on level up via `RewardService` and providers like `WeaponRewardProvider`
+- **Interfaces**: `src/interfaces/` contains shared interfaces like `HasAnimation`
 
 ### Coding guidelines
 

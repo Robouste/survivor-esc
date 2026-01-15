@@ -14,7 +14,7 @@ import {
   WeaponSystem,
   XpDropSystem,
 } from "@systems";
-import { LevelUpUi } from "@ui";
+import { LevelUpUi, XpBar } from "@ui";
 import { GameState } from "@utils";
 import { Engine, Entity, Scene, vec } from "excalibur";
 import { Background } from "../actors/background.actor";
@@ -29,6 +29,9 @@ export class GameScene extends Scene {
   public onInitialize(engine: Engine): void {
     this._hero = new Hero(vec(engine.drawWidth / 2, engine.drawHeight / 2));
     this.add(this._hero);
+
+    const xpBar = new XpBar(engine, this._hero);
+    this.add(xpBar);
 
     this._enemyFactory = new EnemyFactory(this);
     this._enemyFactory.start();

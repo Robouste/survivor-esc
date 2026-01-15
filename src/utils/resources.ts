@@ -17,6 +17,8 @@ export const Resources = {
   Ui: {
     DialogBox: new ImageSource("./ui/dialog-box.png"),
     OptionSelect: new ImageSource("./ui/option-select.png"),
+    XpBarOuter: new ImageSource("./ui/xp-bar-outer.png"),
+    XpBarInner: new ImageSource("./ui/xp-bar-inner.png"),
   },
   Sounds: {
     XpPickUp: new Sound("./sounds/xp_pick-up.wav"),
